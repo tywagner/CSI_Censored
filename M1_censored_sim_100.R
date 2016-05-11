@@ -262,16 +262,20 @@ outDiff[i,3,5] <- outDrop$mean$sigma - sigma
 # mean(outDiff[,2,2])
 # mean(outDiff[,3,2])
 
-# Output is scenarios in columns, parameters (int, slope, sd) in rows
+# Output is scenarios in columns (censor, 0.5*DL, DL, 0, omit), parameters (int, slope, sd) in rows
 mean.diff <- apply(outDiff, 2:3, mean)
 quant.diff <- apply(outDiff, 2:3, quantile, c(0.025, 0.975))
 
+# re-order for plotting
+# censor, 0, 0.5*DL, DL, omit
+mean.diff2 <- mean.diff[,c(1,4,2,3,5)]
+quant.diff2 <- quant.diff[,,c(1,4,2,3,5)]
 
 # #####################################################
 # ########### PLOT ####################################
 # #####################################################
 res <- 6
-name_figure <- "SimDiffPlot.jpg"
+name_figure <- "SimDiffPlot30Percent.jpg"
 jpeg(filename = name_figure, height = 500*res, width = 500*res, res=72*res)
 def.par <- par(no.readonly = TRUE)     # save default, for resetting...
 
@@ -290,7 +294,10 @@ nlake <- 5 # num
 ### axis label options
 spc <- 0.06
 # lab <- 1:nlake
-lab <- c("Censored \nmodel", "Set to \n0.5 * DL", "Set to \nDL", "Set to \n0", "Omit")
+# lab <- c("Censored \nmodel", "Set to \n0.5 * DL", "Set to \nDL", "Set to \n0", "Omit")
+# re-order for plotting
+# censor, 0, 0.5*DL, DL, omit
+lab <- c("Censored \nmodel", "Set to \n0", "Set to \n0.5 * DL", "Set to \nDL", "Omit")
 cex <- 0.5
 adj <- 0
 const <- 0.1
@@ -311,22 +318,22 @@ axis(side=2,at=c(1:nlake),labels=lab,tck= -0.01, las=1, mgp=c(0,0.5,0), cex=0.8)
 abline(v=0, lwd=1)
 
 # 95% CIs for int
-segments(x0=quant.diff[,1,][1,], x1=quant.diff[,1,][2,],
+segments(x0=quant.diff2[,1,][1,], x1=quant.diff2[,1,][2,],
          y0=1:nlake, y1=1:nlake, col='black',lwd=1)
 ## mean diff for ints
-points(mean.diff[1,], 1:nlake, col='black',cex=1, pch=16)
+points(mean.diff2[1,], 1:nlake, col='black',cex=1, pch=16)
 
 # 95% CIs for slopes
-segments(x0=quant.diff[,2,][1,], x1=quant.diff[,2,][2,],
+segments(x0=quant.diff2[,2,][1,], x1=quant.diff2[,2,][2,],
          y0=1:nlake+const, y1=1:nlake+const, col='black',lwd=1, lty=2)
 ## mean diff for slopes
-points(mean.diff[2,], 1:nlake+const, col='blue',cex=1, pch=16)
+points(mean.diff2[2,], 1:nlake+const, col='blue',cex=1, pch=16)
 
 # 95% CIs for sd
-segments(x0=quant.diff[,3,][1,], x1=quant.diff[,3,][2,],
+segments(x0=quant.diff2[,3,][1,], x1=quant.diff2[,3,][2,],
          y0=1:nlake+const2, y1=1:nlake+const2, col='black',lwd=1, lty=3)
 ## mean diff for sd
-points(mean.diff[3,], 1:nlake+const2, col='red',cex=1, pch=16)
+points(mean.diff2[3,], 1:nlake+const2, col='red',cex=1, pch=16)
 
 # Add x- and y-axis lables
 mtext(x.label, line = 0.4, side = 1, cex = size.text, outer=T, adj=0.35)
