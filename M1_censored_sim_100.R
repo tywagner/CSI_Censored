@@ -290,7 +290,7 @@ nlake <- 5 # num
 ### axis label options
 spc <- 0.06
 # lab <- 1:nlake
-lab <- c("Censored \nmodel", "Set to \n0.5 * DL", "Set to \nDL", "Set to \n0", "Ignore")
+lab <- c("Censored \nmodel", "Set to \n0.5 * DL", "Set to \nDL", "Set to \n0", "Omit")
 cex <- 0.5
 adj <- 0
 const <- 0.1
@@ -320,13 +320,13 @@ points(mean.diff[1,], 1:nlake, col='black',cex=1, pch=16)
 segments(x0=quant.diff[,2,][1,], x1=quant.diff[,2,][2,],
          y0=1:nlake+const, y1=1:nlake+const, col='black',lwd=1, lty=2)
 ## mean diff for slopes
-points(mean.diff[2,], 1:nlake+const, col='black',cex=1, pch=16)
+points(mean.diff[2,], 1:nlake+const, col='blue',cex=1, pch=16)
 
-# 95% CIs for slopes
+# 95% CIs for sd
 segments(x0=quant.diff[,3,][1,], x1=quant.diff[,3,][2,],
          y0=1:nlake+const2, y1=1:nlake+const2, col='black',lwd=1, lty=3)
-## mean diff for slopes
-points(mean.diff[3,], 1:nlake+const2, col='black',cex=1, pch=16)
+## mean diff for sd
+points(mean.diff[3,], 1:nlake+const2, col='red',cex=1, pch=16)
 
 # Add x- and y-axis lables
 mtext(x.label, line = 0.4, side = 1, cex = size.text, outer=T, adj=0.35)
@@ -338,7 +338,7 @@ box()
 ### ADD legend
 par(mar = c(0, 0, 1, 2))
 plot(1:3, rnorm(3), pch = 1, lty = 1, ylim=c(-2,2), type = "n", axes = FALSE, ann = FALSE)
-legend(1, 1, c("Intercept", "Slope","SD"), pch = c(16,16,16), lty = c(1,2,3), cex=0.8, col=c('black','black','black'),
+legend(1, 1, c("SD", "Slope", "Intercept"), pch = c(16,16,16), lty = c(3,2,1), cex=0.8, col=c('red','blue','black'),
        x.intersp = 0.5)
 ###
 
