@@ -271,6 +271,9 @@ quant.diff <- apply(outDiff, 2:3, quantile, c(0.025, 0.975))
 mean.diff2 <- mean.diff[,c(1,4,2,3,5)]
 quant.diff2 <- quant.diff[,,c(1,4,2,3,5)]
 
+saveRDS(mean.diff2, "mean30percent.rds")
+saveRDS(mean.diff2, "quant30percent.rds")
+
 # #####################################################
 # ########### PLOT ####################################
 # #####################################################
