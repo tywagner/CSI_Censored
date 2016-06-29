@@ -1,0 +1,23 @@
+
+    model {
+    
+    # Likelihood: 
+    for (i in 1:n){
+    y[i] ~ dnorm(mu[i], tau)     # Distribution for random part
+    mu[i] <- a + b * x[i]                    # Linear predictor
+    } # i
+    
+    
+    # Priors
+    a ~ dnorm(0, 0.001)
+    b ~ dnorm(0, 0.001)
+    sigma ~ dunif(0, 100)
+    
+    
+    # Derived quantities
+    tau <- pow(sigma,-2) # precision
+    sigma2 <- pow(sigma,2)
+    
+    
+    } # end model
+    
